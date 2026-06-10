@@ -1,0 +1,36 @@
+{
+  "report_name": "repaired",
+  "row_count": 24,
+  "checks": [
+    {
+      "check": "row_count > 0",
+      "passed": true,
+      "detail": "Total rows: 24"
+    },
+    {
+      "check": "paper_id not null",
+      "passed": true,
+      "detail": "Null paper_ids: 0"
+    },
+    {
+      "check": "paper_id unique",
+      "passed": true,
+      "detail": "Duplicate paper_ids: 0"
+    },
+    {
+      "check": "title not null/empty",
+      "passed": true,
+      "detail": "Null titles: 0, Empty titles: 0"
+    },
+    {
+      "check": "summary length >= 20 chars",
+      "passed": false,
+      "detail": "Summaries < 20 chars: 1"
+    },
+    {
+      "check": "freshness (age_days <= 180)",
+      "passed": true,
+      "detail": "Stale rows (> 180 days): 0"
+    }
+  ]
+}

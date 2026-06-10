@@ -6,6 +6,17 @@ from pathlib import Path
 import re
 from typing import Any, Iterable
 
+import numpy as np
+
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj: Any) -> Any:
+        if isinstance(obj, (np.bool_, np.integer, np.floating)):
+            return obj.item()
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+
 
 def ensure_parent(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -13,7 +24,7 @@ def ensure_parent(path: Path) -> None:
 
 def write_json(path: Path, payload: Any) -> None:
     ensure_parent(path)
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(payload, indent=2, ensure_ascii=True, cls=NumpyEncoder) + "\n", encoding="utf-8")
 
 
 def read_json(path: Path) -> Any:
